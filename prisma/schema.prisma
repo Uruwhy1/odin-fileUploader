@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" // or "mysql", "sqlite" based on your setup
   url      = env("DATABASE_URL")
 }
 
@@ -8,20 +8,17 @@ generator client {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
-  sessions Session[]
   folders  Folder[]
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
-  sessionToken String   @unique
-  userId       Int
-  user         User     @relation(fields: [userId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String   @id @default(uuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
 model Folder {

@@ -1,0 +1,7 @@
+<div><%= auth ? "authenticated" : "not authenticated" %></div>
+<!-- Conditionally render the button based on authentication status -->
+<% if (auth) { %>
+<a href="/logout">Logout</a>
+<% } else { %>
+<a href="/signup">Signup</a>
+<% } %>
