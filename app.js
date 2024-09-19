@@ -9,6 +9,9 @@ import path from "path";
 import authRouter from "./routes/authRoutes.js";
 import pageRouter from "./routes/pageRoutes.js";
 
+import * as livereload from "livereload";
+import connectLivereload from "connect-livereload";
+
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -19,6 +22,16 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 const app = express();
+
+// live-reload
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, "public"));
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
+app.use(connectLivereload());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
