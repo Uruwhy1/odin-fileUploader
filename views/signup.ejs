@@ -1,15 +1,30 @@
-<h2>Sign Up</h2>
-<form action="/signup" method="POST">
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" required /><br />
+<link rel="stylesheet" href="/styles/auth.css" />
+<div class="left">
+  <h1>Sign Up</h1>
+  <p>Welcome back! Please login to your account.</p>
+  <img src="/images/illustration.png" alt="Illustration" />
+</div>
+<div class="right">
+  <form action="/signup" method="POST">
+    <div class="item">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required /><br />
+    </div>
 
-  <label id="pw-label" for="password">Password</label>
-  <input type="password" id="password" name="password" required />
+    <div class="item">
+      <label id="pw-label" for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+    </div>
 
-  <% if (error) { %>
-  <label id="error-message" style="color: red"><%= error %></label>
-  <% } %>
+    <% if (error) { %>
+    <label id="error-message" style="color: red"
+      >Couldn't sign up: <%= error %>.</label
+    >
+    <% } %>
 
-  <button type="submit">Sign Up</button>
-</form>
-<a class="back" href="/">Go Back</a>
+    <div class="buttons">
+      <button class="submit" type="submit">Sign Up</button>
+      <a href="/login">Log In</a>
+    </div>
+  </form>
+</div>

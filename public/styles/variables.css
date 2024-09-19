@@ -1,0 +1,6 @@
+:root {
+  --link: rgb(104, 156, 218);
+  --link-hover: rgb(61, 111, 173);
+
+  --page-bg: linear-gradient(90deg, #2d1077, #333579);
+}
