@@ -1,12 +1,16 @@
+import e from "express";
+
 function isAuthenticated(req) {
   return req.isAuthenticated();
 }
 
 const home = (req, res) => {
-  res.render("home", {
-    title: "Home",
-    auth: isAuthenticated(req),
-  });
+  if (!isAuthenticated(req)) res.redirect("/login");
+  else
+    res.render("home", {
+      title: "Home",
+      auth: isAuthenticated(req),
+    });
 };
 
 export default {
