@@ -6,7 +6,8 @@
     <title><%= title %></title>
   </head>
   <body>
+    <%- include('partials/header', { auth: auth }) %>
+
     <main><%- body %></main>
   </body>
 </html>
-
