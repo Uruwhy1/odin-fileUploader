@@ -4,15 +4,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const signupForm = (req, res) => {
-  if (req.isAuthenticated()) return res.redirect("/");
-  res.render("signup", {
-    title: "Sign Up",
-    auth: false,
-    error: req.query.error,
-  });
-};
-
 const signup = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -46,11 +37,12 @@ const signup = async (req, res, next) => {
   }
 };
 
-const loginForm = (req, res) => {
+const renderAuthPage = (isLogin) => (req, res) => {
+  // isLogin = boolean
   if (req.isAuthenticated()) return res.redirect("/");
-  res.render("login", {
-    title: "Login",
-    auth: false,
+  res.render("auth", {
+    title: isLogin ? "Login" : "Sign Up",
+    isLogin,
     error: req.query.error,
   });
 };
@@ -81,9 +73,8 @@ const logout = (req, res) => {
 };
 
 export default {
-  signupForm,
+  renderAuthPage,
   signup,
-  loginForm,
   login,
   logout,
 };

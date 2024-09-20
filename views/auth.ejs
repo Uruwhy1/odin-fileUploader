@@ -1,12 +1,16 @@
 <link rel="stylesheet" href="/styles/auth.css" />
 
 <div class="left">
-  <h1>Log In</h1>
-  <p>Welcome back! Please login to your account.</p>
-  <img src="/images/illustration.png" alt="Illustration" />
+  <div class="text">
+    <h1><%= isLogin ? 'Log In' : 'Sign Up' %></h1>
+    <p><%= isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to get started.' %></p>
+  </div>
+
+  <img src="/images/undraw_files_sent_re_kv00.svg" alt="Illustration" />
 </div>
+
 <div class="right">
-  <form action="/login" method="POST">
+  <form action="<%= isLogin ? '/login' : '/signup' %>" method="POST">
     <div class="item">
       <label for="email">Email</label>
       <input
@@ -31,13 +35,15 @@
 
     <% if (error) { %>
     <label id="error-message" style="color: red"
-      >Couldn't log in: <%= error %>.</label
+      ><%= isLogin ? "Couldn't log in" : "Couldn't sign up" %>: <%= error %>.</label
     >
     <% } %>
 
     <div class="buttons">
-      <button type="submit" class="submit">Login</button>
-      <a href="/signup">Sign Up</a>
+      <button type="submit" class="submit"><%= isLogin ? 'Login' : 'Sign Up' %></button>
+      <a href="<%= isLogin ? '/signup' : '/login' %>">
+        <%= isLogin ? 'Sign Up' : 'Log In' %>
+      </a>
     </div>
   </form>
 </div>
