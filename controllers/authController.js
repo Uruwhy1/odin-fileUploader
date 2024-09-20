@@ -4,6 +4,16 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const renderAuthPage = (isLogin) => (req, res) => {
+  // isLogin = boolean
+  if (req.isAuthenticated()) return res.redirect("/");
+  res.render("auth", {
+    title: isLogin ? "Login" : "Sign Up",
+    isLogin,
+    error: req.query.error,
+  });
+};
+
 const signup = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -35,16 +45,6 @@ const signup = async (req, res, next) => {
       error: "An error occurred while creating the user.",
     });
   }
-};
-
-const renderAuthPage = (isLogin) => (req, res) => {
-  // isLogin = boolean
-  if (req.isAuthenticated()) return res.redirect("/");
-  res.render("auth", {
-    title: isLogin ? "Login" : "Sign Up",
-    isLogin,
-    error: req.query.error,
-  });
 };
 
 const login = (req, res, next) => {

@@ -2,5 +2,7 @@
   --link: rgb(104, 156, 218);
   --link-hover: rgb(61, 111, 173);
 
+  --loading-bar: var(--link);
+
   --page-bg: linear-gradient(90deg, #3f2385, #61338f);
 }
