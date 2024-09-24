@@ -14,36 +14,34 @@ main > div {
 
 .left {
   font-size: 1.5rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
   margin-top: 2rem;
-}
-.left .text {
-  margin-bottom: 2rem;
 }
 
 /* ---------- RIGHT SIDE -------------- */
 
 .right {
-  background-color: #fefefe;
-  color: #333;
-  padding: 1.75rem;
-
-  border-radius: 0.5rem;
-  box-shadow: 1rem 1rem rgba(231, 231, 231, 0.722);
-
   justify-self: start;
   display: flex;
+  gap: 1.75rem;
   flex-direction: column;
+}
+.right .text {
+  font-size: 1.1rem;
+}
+.right .text h1 {
+  font-size: 2.5rem;
 }
 
 form {
   display: flex;
   flex-direction: column;
   gap: 1rem; /* gap between form items */
+  background-color: #fefefe;
+  color: #333;
+  padding: 1.75rem;
+
+  border-radius: 0.5rem;
+  box-shadow: 1rem 1rem rgba(231, 231, 231, 0.722);
 }
 
 form .item {
@@ -63,7 +61,7 @@ input {
   border: 0;
   font-size: 1rem;
 
-  background-color: #f3f3f3;
+  background-color: #eaeaea;
 }
 input:placeholder-shown {
   color: gray;
@@ -91,12 +89,14 @@ input:placeholder-shown {
 
 .submit {
   padding: 0.75rem;
-  background-color: var(--link);
+  background-color: var(--accent);
   color: white;
   border-radius: 5px;
+
+  transition: 0.25s;
 }
 .submit:hover {
-  background-color: var(--link-hover);
+  background-color: var(--accent-hover);
 }
 
 .right a {

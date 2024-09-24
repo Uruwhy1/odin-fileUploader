@@ -1,15 +1,14 @@
 <link rel="stylesheet" href="/pages/auth.css" />
 
 <div class="left">
-  <div class="text">
-    <h1><%= isLogin ? 'Log In' : 'Sign Up' %></h1>
-    <p><%= isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to start sharing files.' %></p>
-  </div>
-
   <img src="/assets/undraw_files_sent_re_kv00.svg" alt="Illustration" />
 </div>
 
 <div class="right">
+  <div class="text">
+    <h1><%= isLogin ? 'Log In' : 'Sign Up' %></h1>
+    <p><%= isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to start sharing files.' %></p>
+  </div>
   <form action="<%= isLogin ? '/login' : '/signup' %>" method="POST">
     <div class="item">
       <label for="email">Email</label>

@@ -1,8 +1,10 @@
 :root {
-  --link: rgb(104, 156, 218);
-  --link-hover: rgb(61, 111, 173);
+  --accent: #ffa500;
+  --accent-hover: #ff8800;
 
-  --loading-bar: var(--link);
+  --link: var(--accent);
+
+  --loading-bar: var(--accent);
 
   --page-bg: linear-gradient(90deg, #3f2385, #61338f);
 }
