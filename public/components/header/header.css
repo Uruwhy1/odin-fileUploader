@@ -38,3 +38,13 @@ header a:hover {
 .loading.active {
   transform: scaleX(1);
 }
+
+@media screen and (max-width: 700px) {
+  header {
+    justify-content: center;
+  }
+
+  header .auth {
+    display: none;
+  }
+}

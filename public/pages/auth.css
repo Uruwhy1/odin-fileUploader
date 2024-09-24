@@ -121,3 +121,36 @@ input:placeholder-shown {
   margin-top: -0.5rem;
   padding-left: 0.1rem;
 }
+
+@media screen and (max-width: 1500px) {
+  main > div {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 1300px) {
+  main {
+    grid-template-columns: 100%;
+  }
+  main > div {
+    max-width: 600px;
+  }
+  .left {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  main > div {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 500px) {
+  main > div {
+    width: 90%;
+  }
+
+  form {
+    border-radius: 0;
+  box-shadow: 0.75rem 0.75rem rgba(231, 231, 231, 0.722);
+  }
+}
