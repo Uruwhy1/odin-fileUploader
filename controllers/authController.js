@@ -32,6 +32,13 @@ const signup = async (req, res, next) => {
       },
     });
 
+    await prisma.folder.create({
+      data: {
+        name: "Default Folder", 
+        userId: newUser.id,
+      },
+    });
+
     req.logIn(newUser, (err) => {
       if (err) return next(err);
       res.redirect("/");
