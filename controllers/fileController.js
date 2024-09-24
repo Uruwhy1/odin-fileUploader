@@ -78,9 +78,40 @@ const deleteFolder = async (req, res) => {
       where: { id: folderId },
     });
 
-    res.status(200).json({ message: 'Folder deleted successfully' });
+    res.status(200).json({ message: "Folder deleted successfully" });
   } catch (error) {
     console.error("Error deleting folder:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const renameFolder = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
+
+  const folderId = parseInt(req.params.id, 10);
+  const newName = req.body.newName.trim();
+
+  try {
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId },
+    });
+
+    if (!folder || folder.userId !== req.user.id) {
+      return res
+        .status(403)
+        .send("You do not have permission to rename this folder.");
+    }
+
+    await prisma.folder.update({
+      where: { id: folderId },
+      data: { name: newName },
+    });
+
+    res.redirect("/"); 
+  } catch (error) {
+    console.error("Error renaming folder:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -89,4 +120,5 @@ export default {
   uploadFile,
   createFolder,
   deleteFolder,
+  renameFolder,
 };

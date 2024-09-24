@@ -4,7 +4,7 @@
 
   --link: var(--accent);
 
-  --loading-bar: var(--accent);
+  --loading-bar: skyblue;
 
   --page-bg: linear-gradient(90deg, #3f2385, #61338f);
 }
