@@ -5,4 +5,6 @@ const pageRouter = express.Router();
 pageRouter.get("/", pageController.renderHomePage);
 pageRouter.get("/about", pageController.renderAboutPage);
 
+
+
 export default pageRouter;

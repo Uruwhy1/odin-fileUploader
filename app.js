@@ -8,6 +8,7 @@ import path from "path";
 
 import authRouter from "./routes/authRoutes.js";
 import pageRouter from "./routes/pageRoutes.js";
+import fileRouter from "./routes/fileRoutes.js";
 
 import * as livereload from "livereload";
 import connectLivereload from "connect-livereload";
@@ -61,6 +62,7 @@ app.use(express.json());
 // routes
 app.use("/", pageRouter);
 app.use("/", authRouter);
+app.use("/", fileRouter);
 
 let PORT = process.env.PORT | 3000;
 app.listen(PORT, () => {
