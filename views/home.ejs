@@ -4,7 +4,7 @@
   <ul id="folder-list">
     <% folders.forEach(folder => { %>
     <li id="folder-<%= folder.id %>">
-      <%= folder.name %>
+      <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
       <button class="delete-folder-btn" data-id="<%= folder.id %>">
         Delete
       </button>

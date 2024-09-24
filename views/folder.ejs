@@ -1,0 +1,17 @@
+<h1><%= title %></h1>
+<p>Files in this folder:</p>
+
+<ul>
+  <% if (files.length > 0) { %>
+    <% files.forEach(file => { %>
+      <li>
+        <span><%= file.name %></span>
+        <!-- You can add more actions here, like downloading or deleting the file -->
+      </li>
+    <% }) %>
+  <% } else { %>
+    <li>No files in this folder.</li>
+  <% } %>
+</ul>
+
+<a href="/">Back to Home</a>

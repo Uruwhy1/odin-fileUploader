@@ -21,15 +21,40 @@ const upload = multer({ storage });
 
 const uploadFile = [
   upload.single("file"),
-  (req, res) => {
+  async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.redirect("/login");
+    }
+
+    const folderId = parseInt(req.body.folderId, 10);
+
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId },
+    });
+
+    if (!folder || folder.userId !== req.user.id) {
+      return res.status(403).send("Unauthorized folder selection.");
     }
 
     if (!req.file) {
       return res.status(400).send("No file uploaded.");
     }
-    res.redirect("/?sucess");
+
+    try {
+      await prisma.file.create({
+        data: {
+          name: req.file.originalname,
+          size: req.file.size,
+          path: req.file.path,
+          folderId: folderId,
+        },
+      });
+
+      res.redirect("/?success");
+    } catch (error) {
+      console.error("Error saving file:", error);
+      res.status(500).send("Internal Server Error");
+    }
   },
 ];
 
@@ -109,7 +134,7 @@ const renameFolder = async (req, res) => {
       data: { name: newName },
     });
 
-    res.redirect("/"); 
+    res.redirect("/");
   } catch (error) {
     console.error("Error renaming folder:", error);
     res.status(500).send("Internal Server Error");
