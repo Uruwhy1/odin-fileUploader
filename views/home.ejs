@@ -1,8 +1,14 @@
+<script src="/deleteFolder.js"></script>
 <div>
   <h2>Your Folders:</h2>
-  <ul>
+  <ul id="folder-list">
     <% folders.forEach(folder => { %>
-    <li><%= folder.name %></li>
+    <li id="folder-<%= folder.id %>">
+      <%= folder.name %>
+      <button class="delete-folder-btn" data-id="<%= folder.id %>">
+        Delete
+      </button>
+    </li>
     <% }) %>
   </ul>
 </div>
