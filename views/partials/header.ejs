@@ -10,7 +10,12 @@
   </div>
 
   <div class="auth">
+  <% if (!auth) { %>
     <a href="/signup">Sign Up</a>
-    <a href="/login">Log In</a>
+    <a href="/login">Log In</a> 
+  <% } else { %> 
+    <a href="/logout">Log Out</a>
+  <% } %>
   </div>
+
 </header>

@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../prismaClient.js";
 
 const renderAuthPage = (isLogin) => (req, res) => {
   // isLogin = boolean
@@ -11,6 +9,7 @@ const renderAuthPage = (isLogin) => (req, res) => {
     title: isLogin ? "Login" : "Sign Up",
     isLogin,
     error: req.query.error,
+    auth: false,
   });
 };
 

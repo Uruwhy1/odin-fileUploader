@@ -3,7 +3,8 @@ import session from "express-session";
 import expressLayouts from "express-ejs-layouts";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import passport from "./passportConfig.js";
-import { PrismaClient } from "@prisma/client";
+
+import prisma from "./prismaClient.js";
 import path from "path";
 
 import authRouter from "./routes/authRoutes.js";
@@ -21,7 +22,6 @@ const __dirname = dirname(__filename);
 import dotenv from "dotenv";
 dotenv.config();
 
-const prisma = new PrismaClient();
 const app = express();
 
 // live-reload
