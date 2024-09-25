@@ -47,6 +47,7 @@ const uploadFile = [
           size: req.file.size,
           path: req.file.path,
           folderId: folderId,
+          userId: req.user.id, 
         },
       });
 
