@@ -1,0 +1,27 @@
+main {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 3fr 1.5fr;
+  grid-template-areas:
+    "files folders"
+    "buttons folders";
+
+  gap: 1rem;
+
+  padding: 0 1rem 1rem 1rem;
+}
+
+/* ---------------- left side -----------------*/
+
+.files {
+  grid-area: files;
+  background-color: rgb(192, 192, 255);
+}
+.actions {
+  background-color: rgb(228, 255, 211);
+  grid-area: buttons;
+}
+.folders {
+  background-color: rgb(255, 223, 223);
+  grid-area: folders;
+}
