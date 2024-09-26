@@ -1,27 +1,44 @@
 main {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 3fr 1.5fr;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 0.5fr 3fr;
   grid-template-areas:
-    "files folders"
-    "buttons folders";
-
-  gap: 1rem;
-
+    "folders buttons"
+    "folders files";
+  gap: 0.5rem;
   padding: 0 1rem 1rem 1rem;
 }
 
-/* ---------------- left side -----------------*/
+main > div {
+  padding: 1rem;
+  border-radius: 8px;
+}
 
+/* Left side styling */
+.folders {
+  background-color: rgb(255, 223, 223);
+  grid-area: folders;
+  overflow-y: auto;
+}
+
+.folder-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(120, 120, 120, 0.858);
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Right side styling */
 .files {
   grid-area: files;
   background-color: rgb(192, 192, 255);
 }
+
 .actions {
   background-color: rgb(228, 255, 211);
   grid-area: buttons;
-}
-.folders {
-  background-color: rgb(255, 223, 223);
-  grid-area: folders;
 }

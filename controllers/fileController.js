@@ -47,7 +47,7 @@ const uploadFile = [
           size: req.file.size,
           path: req.file.path,
           folderId: folderId,
-          userId: req.user.id, 
+          userId: req.user.id,
         },
       });
 
@@ -142,9 +142,26 @@ const renameFolder = async (req, res) => {
   }
 };
 
+const getFilesForFolder = async (req, res) => {
+  const folderId = parseInt(req.params.folderId, 10);
+
+  try {
+    const files = await prisma.file.findMany({
+      where: { folderId: folderId },
+      select: { id: true, name: true, size: true }, // You can customize the fields you want to return
+    });
+
+    res.json(files);
+  } catch (error) {
+    console.error("Error fetching files:", error);
+    res.status(500).json({ error: "Failed to fetch files." });
+  }
+};
+
 export default {
   uploadFile,
   createFolder,
   deleteFolder,
   renameFolder,
+  getFilesForFolder,
 };

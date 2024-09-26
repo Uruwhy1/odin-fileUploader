@@ -1,4 +1,20 @@
 <link rel="stylesheet" href="/pages/home.css" />
-<div class="files"></div>
-<div class="actions"></div>
-<div class="folders">1</div>
+<script src="/pages/home.js"></script>
+
+<div class="folders">
+  <% folders.forEach((folder) => { %>
+  <div class="folder-item" data-folder-id="<%= folder.id %>">
+    <%= folder.name %>
+  </div>
+  <% }) %>
+</div>
+
+<div class="actions">
+  <a href="/folders/create">Create Folder</a>
+  <a href="/files/upload">Upload File</a>
+</div>
+
+<div class="files">
+  <h2>Files in folder</h2>
+  <div id="file-list"></div>
+</div>
