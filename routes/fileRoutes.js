@@ -10,5 +10,6 @@ fileRouter.post("/folders/:id/edit", fileController.renameFolder);
 fileRouter.post("/folders/:id/delete", fileController.deleteFolder);
 
 fileRouter.get("/folders/:folderId/files", fileController.getFilesForFolder);
+fileRouter.get("/files/recent", fileController.getLastTenFiles);
 
 export default fileRouter;

@@ -158,10 +158,27 @@ const getFilesForFolder = async (req, res) => {
   }
 };
 
+const getLastTenFiles = async (req, res) => {
+  try {
+    const recentFiles = await prisma.file.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 10,
+    });
+
+    res.status(200).json(recentFiles);
+  } catch (error) {
+    console.error("Error fetching recent files:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export default {
   uploadFile,
   createFolder,
   deleteFolder,
   renameFolder,
   getFilesForFolder,
+  getLastTenFiles,
 };
