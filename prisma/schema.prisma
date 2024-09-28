@@ -9,10 +9,11 @@ generator client {
 
 model User {
   id       Int      @id @default(autoincrement())
+  name     String   @default("Default")
   email    String   @unique
   password String
-  folders  Folder[] 
-  files    File[] 
+  folders  Folder[]
+  files    File[]
 }
 
 model Session {
