@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = event.target.closest("a");
 
     if (target && target.href) {
+      if (target.target == "_blank") return; // if set to open in new tab
       event.preventDefault();
       showLoadingBar();
       setTimeout(() => {
