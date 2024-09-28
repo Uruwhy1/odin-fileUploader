@@ -161,6 +161,9 @@ const getFilesForFolder = async (req, res) => {
 const getLastTenFiles = async (req, res) => {
   try {
     const recentFiles = await prisma.file.findMany({
+      where: {
+        userId: req.user.id,
+      },
       orderBy: {
         createdAt: "desc",
       },
