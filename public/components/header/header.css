@@ -1,27 +1,4 @@
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin: 0 7.5%;
-
-  font-size: 1.25rem;
-}
-
-header div {
-  display: flex;
-  justify-content: start;
-  gap: 3rem;
-}
-
-header a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-}
-header a:hover {
-  text-decoration: underline;
-}
+/* -------------- LOADING BAR ------------------ */
 
 .loading {
   position: fixed;
@@ -38,6 +15,90 @@ header a:hover {
 .loading.active {
   transform: scaleX(1);
 }
+/* -------------------------------------- -*/
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 3.5%;
+  max-width: 1800px;
+
+  font-size: 1.25rem;
+}
+
+header > div {
+  display: flex;
+  justify-content: start;
+  gap: 3rem;
+}
+
+header :is(a, p) {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+header a:hover {
+  text-decoration: underline;
+}
+
+.user-menu {
+  position: relative;
+  cursor: pointer;
+
+  padding: 1rem 0.25rem;
+  min-width: 200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+.user-menu svg {
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  stroke: var(--accent);
+
+  width: calc(30px + 0.25rem);
+  height: calc(30px + 0.25rem);
+
+  padding: 0.25rem;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: -0px;
+
+  display: none;
+
+  width: 100%;
+}
+
+.dropdown a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 1rem;
+  background-color: #333;
+  border-radius: 4px;
+
+  flex-grow: 1;
+  text-align: center;
+}
+
+.dropdown a:hover {
+  background-color: #555;
+}
+
+.user-menu:hover .dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ----- MEDIA QUEREIS ---------- */
 
 @media screen and (max-width: 700px) {
   header {

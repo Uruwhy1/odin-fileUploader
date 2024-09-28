@@ -13,6 +13,7 @@ import fileRouter from "./routes/fileRoutes.js";
 
 import * as livereload from "livereload";
 import connectLivereload from "connect-livereload";
+import setUserInLocals from "./middleware/userMiddleware.js";
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -59,6 +60,7 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(setUserInLocals);
 // routes
 app.use("/", pageRouter);
 app.use("/", authRouter);
