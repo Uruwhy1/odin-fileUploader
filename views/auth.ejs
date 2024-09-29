@@ -7,9 +7,24 @@
 <div class="right">
   <div class="text">
     <h1><%= isLogin ? 'Log In' : 'Sign Up' %></h1>
-    <p><%= isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to start sharing files.' %></p>
+    <p>
+      <!-- prettier-ignore -->
+      <%= isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to start sharing files.' %>
+    </p>
   </div>
   <form action="<%= isLogin ? '/login' : '/signup' %>" method="POST">
+    <% if (!isLogin) { %>
+    <div class="item">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="John"
+        required
+      />
+    </div>
+    <% } %>
     <div class="item">
       <label for="email">Email</label>
       <input
@@ -20,7 +35,6 @@
         required
       />
     </div>
-
     <div class="item">
       <label for="password">Password</label>
       <input
@@ -34,12 +48,15 @@
 
     <% if (error) { %>
     <label id="error-message" style="color: red"
-      ><%= isLogin ? "Couldn't log in" : "Couldn't sign up" %>: <%= error %>.</label
+      ><%= isLogin ? "Couldn't log in" : "Couldn't sign up" %>: <%= error
+      %>.</label
     >
     <% } %>
 
     <div class="buttons">
-      <button type="submit" class="submit"><%= isLogin ? 'Login' : 'Sign Up' %></button>
+      <button type="submit" class="submit">
+        <%= isLogin ? 'Login' : 'Sign Up' %>
+      </button>
       <a href="<%= isLogin ? '/signup' : '/login' %>">
         <%= isLogin ? 'Sign Up' : 'Log In' %>
       </a>

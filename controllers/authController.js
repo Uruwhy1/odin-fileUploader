@@ -14,7 +14,7 @@ const renderAuthPage = (isLogin) => (req, res) => {
 };
 
 const signup = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   // Check if the user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -27,6 +27,7 @@ const signup = async (req, res, next) => {
   try {
     const newUser = await prisma.user.create({
       data: {
+        name: username,
         email,
         password: hashedPassword,
       },
@@ -34,7 +35,7 @@ const signup = async (req, res, next) => {
 
     await prisma.folder.create({
       data: {
-        name: "Default Folder", 
+        name: "Default Folder",
         userId: newUser.id,
       },
     });
