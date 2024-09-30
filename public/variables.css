@@ -2,11 +2,11 @@
   --accent: #ffa500;
   --accent-hover: #ff8800;
 
+  --selected-folder: rgb(130, 163, 255);
+
   --link: var(--accent);
 
   --loading-bar: skyblue;
 
   --page-bg: linear-gradient(90deg, #3f2385, #61338f);
-
-  --selected-folder: var(--accent);
 }

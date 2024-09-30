@@ -47,7 +47,7 @@ function displayFiles(files) {
   fileList.innerHTML = "";
 
   if (files.length === 0) {
-    fileList.innerHTML = "<p>No files found in this folder.</p>";
+    fileList.innerHTML = "<p>No files found.</p>";
   } else {
     files.forEach((file) => {
       const fileElement = document.createElement("div");

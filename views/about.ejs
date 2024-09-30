@@ -1,26 +1,3 @@
-<form action="/upload" method="POST" enctype="multipart/form-data">
-  <label for="file">Choose file:</label>
-  <input type="file" id="file" name="file" required />
-
-  <label for="folder">Select Folder:</label>
-  <select id="folder" name="folderId" required>
-    <% folders.forEach(folder => { %>
-    <option value="<%= folder.id %>"><%= folder.name %></option>
-    <% }) %>
-  </select>
-
-  <button type="submit">Upload</button>
-</form>
-
-<h1>Create Folder</h1>
-<form action="/folders" method="POST">
-  <label for="folderName">Folder Name:</label>
-  <input type="text" id="folderName" name="name" required />
-  <button type="submit">Create Folder</button>
-</form>
-
-<a href="/logout">Logout</a>
-
 <script src="/deleteFolder.js"></script>
 <div>
   <h2>Your Folders:</h2>
