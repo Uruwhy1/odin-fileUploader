@@ -2,22 +2,25 @@
 <script src="/pages/home/fetchFiles.js"></script>
 <script src="/pages/home/modals.js"></script>
 
-<div class="folders">
-  <% folders.forEach((folder) => { %>
-  <div class="folder-item" data-folder-id="<%= folder.id %>">
-    <%= folder.name %>
+<div class="left">
+  <div class="actions">
+    <button id="uploadButton">Upload a File</button>
+    <button id="createFolderButton">Create a Folder</button>
   </div>
-  <% }) %>
+  <div class="folders">
+    <% folders.forEach((folder) => { %>
+    <div class="folder-item" data-folder-id="<%= folder.id %>">
+      <%= folder.name %>
+    </div>
+    <% }) %>
+  </div>
 </div>
 
-<div class="actions">
-  <button id="uploadButton">Upload a File</button>
-  <button id="createFolderButton">Create a Folder</button>
-</div>
-
-<div class="files">
-  <h2 id="folder-name">Last Files...</h2>
-  <div id="file-list"></div>
+<div class="right">
+  <div class="files">
+    <h2 id="folder-name">Last Files...</h2>
+    <div id="file-list"></div>
+  </div>
 </div>
 
 <div class="modal-container">

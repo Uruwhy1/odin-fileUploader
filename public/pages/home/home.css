@@ -1,24 +1,57 @@
 main {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  grid-template-rows: 0.5fr 3fr;
-  grid-template-areas:
-    "folders buttons"
-    "folders files";
-  gap: 0.5rem;
+  grid-template-areas: "left right";
+  gap: 1rem;
   padding: 0 1rem 1rem 1rem;
 }
 
 main > div {
-  padding: 1rem;
-  border-radius: 8px;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* --------------- LEFT SIDE STYLING -----------------
 -------------------------------------------------------*/
+
+.actions {
+  margin-right: calc(0.35rem);
+
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.actions button {
+  padding: 10px;
+  color: #000;
+  font-weight: 500;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: var(--home-action);
+  box-shadow: 0.35rem 0.35rem rgba(229, 229, 229, 0.787);
+
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: 0.35rem 0.35rem var(--accent);
+  }
+}
+
+/* --------------------------------------------------- */
+
 .folders {
   background-color: rgb(255, 223, 223);
-  grid-area: folders;
+
+  border-radius: 5px;
+  padding: 1rem;
+
+  flex-grow: 1;
   overflow-y: auto;
 
   display: flex;
@@ -43,13 +76,11 @@ main > div {
 /* --------------- RIGHT SIDE STYLING -----------------
 -------------------------------------------------------*/
 .files {
-  grid-area: files;
   background-color: rgb(192, 192, 255);
-}
+  flex-grow: 1;
 
-.actions {
-  background-color: rgb(228, 255, 211);
-  grid-area: buttons;
+  border-radius: 5px;
+  padding: 1rem;
 }
 
 /* ------------------- MODALS -------------------------

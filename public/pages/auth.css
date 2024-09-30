@@ -151,6 +151,6 @@ input:placeholder-shown {
 
   form {
     border-radius: 0;
-  box-shadow: 0.75rem 0.75rem rgba(231, 231, 231, 0.722);
+    box-shadow: 0.75rem 0.75rem rgba(231, 231, 231, 0.722);
   }
 }

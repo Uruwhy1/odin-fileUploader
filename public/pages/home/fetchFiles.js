@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           folderItem.style.backgroundColor = "var(--selected-folder)";
           previouslySelectedFolder = folderItem;
 
-          fileHeader.textContent = `Files in ${folderItem.textContent.trim()}...`;
+          fileHeader.textContent = `${folderItem.textContent.trim()}...`;
         } else {
           console.error("Failed to fetch files");
         }

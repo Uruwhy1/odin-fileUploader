@@ -2,7 +2,10 @@
   --accent: #ffa500;
   --accent-hover: #ff8800;
 
-  --selected-folder: rgb(130, 163, 255);
+  --selected-folder: var(--accent);
+
+  --home-action: rgb(255, 255, 255);
+  --home-action-hover: rgb(255, 230, 209);
 
   --link: var(--accent);
 
