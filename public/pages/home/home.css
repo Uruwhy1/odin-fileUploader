@@ -73,6 +73,17 @@ main > div {
   transition: background-color 0.3s ease;
 
   user-select: none;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > svg {
+    transition: 0.1s;
+  }
+  > svg:hover {
+    stroke: rgb(255, 202, 202);
+  }
 }
 
 /* --------------- RIGHT SIDE STYLING -----------------
