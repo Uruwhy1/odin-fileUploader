@@ -6,13 +6,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   fetchLastTen();
 
   folderItems.forEach((folderItem) => {
-    folderItem.addEventListener("click", async () => {
+    folderItem.addEventListener("click", async (event) => {
       const folderId = folderItem.getAttribute("data-folder-id");
+      if (event.target.closest("button") || event.target.closest("input")) {
+        return;
+      }
 
       if (previouslySelectedFolder) {
         previouslySelectedFolder.style.backgroundColor = "";
       }
-
       try {
         if (previouslySelectedFolder == folderItem) {
           fetchLastTen();
@@ -31,7 +33,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           folderItem.style.backgroundColor = "var(--selected-folder)";
           previouslySelectedFolder = folderItem;
 
-          fileHeader.textContent = `${folderItem.textContent.trim()}...`;
+          fileHeader.textContent = `${
+            folderItem.querySelector("span").textContent
+          }...`;
         } else {
           console.error("Failed to fetch files");
         }

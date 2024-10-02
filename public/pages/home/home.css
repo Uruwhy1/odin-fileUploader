@@ -75,14 +75,26 @@ main > div {
   user-select: none;
 
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
 
-  > svg {
+  > svg:first-of-type {
+    margin-left: auto;
     transition: 0.1s;
   }
-  > svg:hover {
+  > #delete-folder-btn:hover {
     stroke: rgb(255, 202, 202);
+  }
+  > #rename-folder-btn:hover {
+    stroke: rgb(255, 249, 187);
+  }
+}
+
+.rename-input {
+  width: 100%;
+
+  ~ svg {
+    display: none;
   }
 }
 
