@@ -35,13 +35,13 @@ main > div {
   border-radius: 5px;
 
   background-color: var(--home-action);
-  box-shadow: 0.35rem 0.35rem rgba(229, 229, 229, 0.787);
+  box-shadow: 0.35rem 0.35rem var(--button-box-shadow);
 
   cursor: pointer;
   transition: 0.3s;
 
   &:hover {
-    box-shadow: 0.35rem 0.35rem var(--accent);
+    --button-box-shadow: var(--accent);
   }
 }
 
@@ -87,6 +87,23 @@ main > div {
   }
   > #rename-folder-btn:hover {
     stroke: rgb(255, 249, 187);
+  }
+
+  > button {
+    background-color: #fff;
+    border: 0;
+    box-shadow: 0.2rem 0.2rem var(--button-box-shadow);
+
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      --button-box-shadow: var(--accent);
+
+      > svg {
+        stroke: var(--accent);
+      }
+    }
   }
 }
 
