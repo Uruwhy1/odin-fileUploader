@@ -1,22 +1,14 @@
 import multer from "multer";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import cloudinary from "cloudinary";
 import prisma from "../prismaClient.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// multer config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const uploadFile = [
@@ -27,7 +19,6 @@ const uploadFile = [
     }
 
     const folderId = parseInt(req.body.folderId, 10);
-
     const folder = await prisma.folder.findUnique({
       where: { id: folderId },
     });
@@ -41,17 +32,28 @@ const uploadFile = [
     }
 
     try {
-      await prisma.file.create({
-        data: {
-          name: req.file.originalname,
-          size: req.file.size,
-          path: req.file.path,
-          folderId: folderId,
-          userId: req.user.id,
-        },
-      });
+      const stream = cloudinary.v2.uploader.upload_stream(
+        { resource_type: "auto" },
+        async (error, result) => {
+          if (error) {
+            return res.status(500).send("Error uploading to Cloudinary");
+          }
 
-      res.redirect("/?success");
+          await prisma.file.create({
+            data: {
+              name: req.file.originalname,
+              size: req.file.size,
+              path: result.secure_url,
+              folderId: folderId,
+              userId: req.user.id,
+            },
+          });
+
+          res.redirect("/?success");
+        }
+      );
+
+      stream.end(req.file.buffer);
     } catch (error) {
       console.error("Error saving file:", error);
       res.status(500).send("Internal Server Error");
