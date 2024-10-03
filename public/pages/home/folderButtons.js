@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let removeButtons = document.querySelectorAll("#delete-folder-btn");
-  let renameButtons = document.querySelectorAll("#rename-folder-btn");
+  const removeButtons = document.querySelectorAll("#delete-folder-btn");
+  const renameButtons = document.querySelectorAll("#rename-folder-btn");
+
+  const renameInputs = document.querySelectorAll(".rename-input");
+  renameInputs.forEach((input) => {
+    const folderId = input.id;
+    const folderNameSpan = document.querySelector(`#name-${folderId}`);
+
+    input.value = folderNameSpan.textContent;
+  });
 
   removeButtons.forEach((button) => {
     button.addEventListener("click", async (e) => {
@@ -31,51 +39,55 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renameButtons.forEach((button) => {
-    button.addEventListener("click", async (e) => {
+    button.addEventListener("click", (e) => {
       e.stopPropagation();
       const folderId = button.getAttribute("data-id");
-      const folderElement = document.getElementById(`${folderId}`);
+      const renameContainer = document.querySelector(`#rename-${folderId}`);
 
-      const folderNameElement = folderElement.querySelector("span");
-      const currentFolderName = folderNameElement.textContent;
+      const input = renameContainer.querySelector("input");
+      input.tabIndex = "";
 
-      const inputField = document.createElement("input");
-      inputField.type = "text";
-      inputField.value = currentFolderName;
-      inputField.classList.add("rename-input");
-      folderElement.replaceChild(inputField, folderNameElement);
+      // place cursor at the end of the input
+      input.focus();
+      let val = input.value;
+      input.value = "";
+      input.value = val;
 
-      const saveButton = document.createElement("button");
-      saveButton.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-      saveButton.classList.add("save-rename-btn");
-      folderElement.appendChild(saveButton);
+      renameContainer.querySelector("button").tabIndex = "";
 
-      saveButton.addEventListener("click", async () => {
-        const newFolderName = inputField.value;
+      renameContainer.classList.remove("hidden");
+    });
+  });
 
-        try {
-          const response = await fetch(`/folders/${folderId}/rename`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ newName: newFolderName }),
-          });
+  const saveButtons = document.querySelectorAll(".save-rename-btn");
+  saveButtons.forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      const folderId = button.id;
+      const renameContainer = document.querySelector(`#rename-${folderId}`);
+      renameContainer.classList.add("hidden");
 
-          if (response.ok) {
-            const updatedFolderNameElement = document.createElement("span");
-            updatedFolderNameElement.textContent = newFolderName;
-            folderElement.replaceChild(updatedFolderNameElement, inputField);
-            folderElement.removeChild(saveButton);
-          } else {
-            alert("Failed to rename the folder.");
-          }
-        } catch (error) {
-          console.error("Error renaming folder:", error);
-          alert("An unexpected error occurred.");
+      const inputField = renameContainer.querySelector(".rename-input");
+      const newFolderName = inputField.value;
+
+      try {
+        const response = await fetch(`/folders/${folderId}/rename`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ newName: newFolderName }),
+        });
+
+        if (response.ok) {
+          let nameElement = document.querySelector(`#name-${folderId}`);
+          nameElement.textContent = newFolderName;
+        } else {
+          alert("Failed to rename the folder.");
         }
-      });
+      } catch (error) {
+        console.error("Error renaming folder:", error);
+        alert("An unexpected error occurred.");
+      }
     });
   });
 });
