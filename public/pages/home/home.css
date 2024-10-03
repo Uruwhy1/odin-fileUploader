@@ -14,6 +14,9 @@ main > div {
   flex-direction: column;
   gap: 1.5rem;
 }
+.left {
+  min-width: max-content;
+}
 
 /* --------------- LEFT SIDE STYLING -----------------
 -------------------------------------------------------*/
@@ -75,19 +78,9 @@ main > div {
   user-select: none;
 
   display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
-
-  > svg:first-of-type {
-    margin-left: auto;
-    transition: 0.1s;
-  }
-  > #delete-folder-btn:hover {
-    stroke: rgb(255, 202, 202);
-  }
-  > #rename-folder-btn:hover {
-    stroke: rgb(255, 249, 187);
-  }
 
   > button {
     background-color: #fff;
@@ -107,10 +100,31 @@ main > div {
   }
 }
 
+.svgs {
+  display: flex;
+  gap: 0.5rem;
+
+  > svg:first-of-type {
+    margin-left: auto;
+    transition: 0.1s;
+  }
+  > #delete-folder-btn:hover {
+    stroke: rgb(255, 202, 202);
+  }
+  > #rename-folder-btn:hover {
+    stroke: rgb(255, 249, 187);
+  }
+}
+
 .rename-input {
   width: 100%;
 
-  ~ svg {
+  padding: 0.25rem;
+
+  border-radius: 1px;
+  border: none;
+
+  ~ .svgs {
     display: none;
   }
 }
