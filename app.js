@@ -11,8 +11,6 @@ import authRouter from "./routes/authRoutes.js";
 import pageRouter from "./routes/pageRoutes.js";
 import fileRouter from "./routes/fileRoutes.js";
 
-import * as livereload from "livereload";
-import connectLivereload from "connect-livereload";
 import setUserInLocals from "./middleware/userMiddleware.js";
 
 import { fileURLToPath } from "url";
@@ -24,16 +22,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-
-// live-reload
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "public"));
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
-app.use(connectLivereload());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
