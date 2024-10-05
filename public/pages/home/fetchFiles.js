@@ -56,7 +56,24 @@ function displayFiles(files) {
     files.forEach((file) => {
       const fileElement = document.createElement("div");
       fileElement.className = "file-item";
-      fileElement.innerText = `${file.name} - ${file.size} KB`;
+
+      const titleElement = document.createElement("p");
+      titleElement.className = "file-title";
+      titleElement.innerText = `${file.name} - ${file.size} KB`;
+
+      const sanitizedFileName = file.name.replace(/[^\w-]/g, "_");
+
+      const urlElement = document.createElement("a");
+      const downloadUrl = file.path.replace(
+        "/upload/",
+        `/upload/fl_attachment:${sanitizedFileName}/`
+      );
+      urlElement.href = downloadUrl;
+      urlElement.textContent = "Download";
+
+      fileElement.appendChild(titleElement);
+      fileElement.appendChild(urlElement);
+
       fileList.appendChild(fileElement);
     });
   }
