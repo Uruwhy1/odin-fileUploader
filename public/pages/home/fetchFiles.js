@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const folderItems = document.querySelectorAll(".folder-item");
-  const fileHeader = document.querySelector("#folder-name");
 
   let previouslySelectedFolder = null;
   fetchLastTen();
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         if (previouslySelectedFolder == folderItem) {
           fetchLastTen();
-          fileHeader.textContent = "Recent files...";
           previouslySelectedFolder = null;
           previouslySelectedFolder.style.backgroundColor = "";
 
@@ -32,10 +30,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           displayFiles(files);
           folderItem.style.backgroundColor = "var(--selected-folder)";
           previouslySelectedFolder = folderItem;
-
-          fileHeader.textContent = `${
-            folderItem.querySelector("span").textContent
-          }...`;
         } else {
           console.error("Failed to fetch files");
         }
@@ -46,6 +40,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+async function fetchLastTen() {
+  const fileList = document.getElementById("file-list");
+  fileList.innerHTML = "";
+  try {
+    const response = await fetch("/files/recent");
+    if (response.ok) {
+      const files = await response.json();
+      displayFiles(files);
+    } else {
+      console.error("Failed to fetch recent files");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 function displayFiles(files) {
   const fileList = document.getElementById("file-list");
   fileList.innerHTML = "";
@@ -54,39 +64,76 @@ function displayFiles(files) {
     fileList.innerHTML = "<p>No files found.</p>";
   } else {
     files.forEach((file) => {
-      const fileElement = document.createElement("div");
-      fileElement.className = "file-item";
+      const downloadUrl = sanitizeUrl(file.name, file.path);
 
-      const titleElement = document.createElement("p");
-      titleElement.className = "file-title";
-      titleElement.innerText = `${file.name}`;
+      const imgPreview = createElement("img", {
+        src: getPreview(file.path),
+        alt: `${file.name} preview`,
+        className: "file-preview",
+      });
 
-      const sizeElement = document.createElement("p");
-      sizeElement.className = "file-size";
-      sizeElement.innerText = `${file.size} KB`;
+      const titleElement = createElement("p", {
+        className: "file-title",
+        textContent: file.name,
+      });
 
-      const sanitizedFileName = file.name.replace(/[^\w-]/g, "_");
-      const downloadUrl = file.path.replace(
-        "/upload/",
-        `/upload/fl_attachment:${sanitizedFileName}/`
+      const sizeElement = createElement("p", {
+        className: "file-size",
+        textContent: `${file.size} KB`,
+      });
+
+      const downloadLink = createElement("a", {
+        href: downloadUrl,
+        innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
+      });
+
+      const fileElement = createElement(
+        "div",
+        { className: "file-item" },
+        imgPreview,
+        titleElement,
+        sizeElement,
+        downloadLink
       );
-      const urlElement = document.createElement("a");
-      urlElement.href = downloadUrl;
-      urlElement.textContent = "Download";
-
-      const imgPreview = document.createElement("img");
-      imgPreview.src = getPreview(file.path);
-      imgPreview.alt = `${file.name} preview`;
-      imgPreview.className = "file-preview";
-
-      fileElement.appendChild(imgPreview);
-      fileElement.appendChild(titleElement);
-      fileElement.appendChild(sizeElement);
-      fileElement.appendChild(urlElement);
 
       fileList.appendChild(fileElement);
     });
   }
+}
+
+function createElement(tag, options = {}, ...children) {
+  const element = document.createElement(tag);
+
+  for (let [key, value] of Object.entries(options)) {
+    if (key === "className") {
+      element.className = value;
+    } else if (key === "innerHTML") {
+      element.innerHTML = value;
+    } else if (key === "textContent") {
+      element.textContent = value;
+    } else {
+      element[key] = value;
+    }
+  }
+
+  children.forEach((child) => {
+    if (typeof child === "string") {
+      element.appendChild(document.createTextNode(child));
+    } else if (child) {
+      element.appendChild(child);
+    }
+  });
+
+  return element;
+}
+
+function sanitizeUrl(name, url) {
+  const sanitizedFileName = name.replace(/[^\w-]/g, "_");
+  const downloadUrl = url.replace(
+    "/upload/",
+    `/upload/fl_attachment:${sanitizedFileName}/`
+  );
+  return downloadUrl;
 }
 
 function getPreview(path) {
@@ -108,21 +155,5 @@ function getPreview(path) {
     return placeholders[extension];
   } else {
     return "assets/default-placeholder.png";
-  }
-}
-
-async function fetchLastTen() {
-  const fileList = document.getElementById("file-list");
-  fileList.innerHTML = "";
-  try {
-    const response = await fetch("/files/recent");
-    if (response.ok) {
-      const files = await response.json();
-      displayFiles(files);
-    } else {
-      console.error("Failed to fetch recent files");
-    }
-  } catch (error) {
-    console.error("Error:", error);
   }
 }

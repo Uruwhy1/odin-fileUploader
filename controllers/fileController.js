@@ -150,7 +150,9 @@ const getFilesForFolder = async (req, res) => {
   try {
     const files = await prisma.file.findMany({
       where: { folderId: folderId },
-      select: { id: true, name: true, size: true }, // You can customize the fields you want to return
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     res.json(files);
