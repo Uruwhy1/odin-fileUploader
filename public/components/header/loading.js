@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showLoadingBar() {
     loadingElement.classList.add("active");
   }
+
   function hideLoadingBar() {
     setTimeout(() => {
       loadingElement.classList.remove("active");
@@ -15,14 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Delay so animation always has time to complete
   document.addEventListener("click", function (event) {
-    const target = event.target.closest("a");
+    const target = event.target;
 
-    if (target && target.href) {
-      if (target.target == "_blank") return; // if set to open in new tab
+    if (target.tagName === "a" && target.href) {
+      if (target.target === "_blank") return; // if set to open in new tab
       event.preventDefault();
       showLoadingBar();
       setTimeout(() => {
         location.href = target.href;
+        hideLoadingBar();
       }, 500);
     }
   });
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       form.submit();
+      hideLoadingBar();
     }, 500); // delay so loading bar fills up
   });
 });
