@@ -41,7 +41,7 @@ const uploadFile = [
 
           await prisma.file.create({
             data: {
-              name: req.file.originalname,
+              name: req.body.name,
               size: req.file.size,
               path: result.secure_url,
               folderId: folderId,
