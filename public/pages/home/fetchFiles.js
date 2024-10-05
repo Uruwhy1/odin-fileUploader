@@ -59,23 +59,55 @@ function displayFiles(files) {
 
       const titleElement = document.createElement("p");
       titleElement.className = "file-title";
-      titleElement.innerText = `${file.name} - ${file.size} KB`;
+      titleElement.innerText = `${file.name}`;
+
+      const sizeElement = document.createElement("p");
+      sizeElement.className = "file-size";
+      sizeElement.innerText = `${file.size} KB`;
 
       const sanitizedFileName = file.name.replace(/[^\w-]/g, "_");
-
-      const urlElement = document.createElement("a");
       const downloadUrl = file.path.replace(
         "/upload/",
         `/upload/fl_attachment:${sanitizedFileName}/`
       );
+      const urlElement = document.createElement("a");
       urlElement.href = downloadUrl;
       urlElement.textContent = "Download";
 
+      const imgPreview = document.createElement("img");
+      imgPreview.src = getPreview(file.path);
+      imgPreview.alt = `${file.name} preview`;
+      imgPreview.className = "file-preview";
+
+      fileElement.appendChild(imgPreview);
       fileElement.appendChild(titleElement);
+      fileElement.appendChild(sizeElement);
       fileElement.appendChild(urlElement);
 
       fileList.appendChild(fileElement);
     });
+  }
+}
+
+function getPreview(path) {
+  const extension = path.split(".").pop().toLowerCase();
+
+  const placeholders = {
+    pdf: "assets/pdf-placeholder.png",
+    doc: "assets/word-placeholder.png",
+    docx: "assets/word-placeholder.png",
+    ppt: "assets/ppt-placeholder.png",
+    pptx: "assets/ppt-placeholder.png",
+    txt: "assets/txt-placeholder.png",
+  };
+
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+  if (imageExtensions.includes(extension)) {
+    return path;
+  } else if (placeholders[extension]) {
+    return placeholders[extension];
+  } else {
+    return "assets/default-placeholder.png";
   }
 }
 
