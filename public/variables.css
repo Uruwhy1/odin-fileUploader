@@ -1,6 +1,7 @@
 :root {
   --accent: #ffa500;
   --accent-hover: #ff8800;
+  --accent-background: #ffecdb;
 
   --selected-folder: var(--accent);
 
