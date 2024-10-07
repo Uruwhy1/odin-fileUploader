@@ -79,8 +79,10 @@ function displayFiles(files) {
 
       const sizeElement = createElement("p", {
         className: "file-size",
-        textContent: `${file.size} KB`,
+        textContent: formatSize(file.size),
       });
+
+      console.log(file.size, file.size / 1024);
 
       const downloadLink = createElement("a", {
         href: downloadUrl,
@@ -125,6 +127,16 @@ function createElement(tag, options = {}, ...children) {
   });
 
   return element;
+}
+
+function formatSize(bytes) {
+  if (bytes >= 1e9) {
+    return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+  } else if (bytes >= 1e6) {
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+  }
+
+  return (bytes / 1024).toFixed(2) + " KB";
 }
 
 function sanitizeUrl(name, url) {
