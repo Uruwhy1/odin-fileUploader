@@ -33,6 +33,7 @@ model Folder {
 
 model File {
   id        Int      @id @default(autoincrement())
+  publicId  String
   name      String
   size      Int
   path      String

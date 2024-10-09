@@ -43,6 +43,7 @@ const uploadFile = [
             data: {
               name: req.body.name,
               size: req.file.size,
+              publicId: result.public_id,
               path: result.secure_url,
               folderId: folderId,
               userId: req.user.id,
@@ -60,6 +61,41 @@ const uploadFile = [
     }
   },
 ];
+
+const deleteFile = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
+
+  const { id: publicId } = req.params;
+  const { fileId } = req.body;
+
+  try {
+    const file = await prisma.file.findUnique({
+      where: { id: fileId },
+    });
+
+    const resourceType =
+      file.type === "image" ? "image" : file.type === "video" ? "video" : "raw";
+
+    if (!file || file.userId !== req.user.id) {
+      return res.status(403).send("Unauthorized to delete this file.");
+    }
+
+    await cloudinary.v2.uploader.destroy(file.publicId, {
+      resource_type: resourceType,
+    });
+
+    await prisma.file.delete({
+      where: { id: fileId },
+    });
+
+    res.status(200).json({ message: "File deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 const createFolder = async (req, res) => {
   if (!req.isAuthenticated()) {
@@ -183,6 +219,7 @@ const getLastTenFiles = async (req, res) => {
 
 export default {
   uploadFile,
+  deleteFile,
   createFolder,
   deleteFolder,
   renameFolder,
