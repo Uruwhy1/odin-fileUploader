@@ -81,9 +81,6 @@ function displayFiles(files) {
         className: "file-size",
         textContent: formatSize(file.size),
       });
-
-      console.log(file.size, file.size / 1024);
-
       const downloadLink = createElement("a", {
         href: downloadUrl,
         innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
@@ -91,7 +88,7 @@ function displayFiles(files) {
 
       const deleteButton = createElement("button", {
         className: "delete-button",
-        textContent: "Delete",
+        innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`,
       });
       deleteButton.addEventListener("click", async () => {
         const confirmed = confirm("Are you sure you want to delete this file?");
@@ -100,14 +97,23 @@ function displayFiles(files) {
           fileElement.remove();
         }
       });
+
+      const buttonContainer = createElement(
+        "div",
+        {
+          className: "file-buttons",
+        },
+        downloadLink,
+        deleteButton
+      );
+
       const fileElement = createElement(
         "div",
         { className: "file-item" },
         imgPreview,
         titleElement,
         sizeElement,
-        downloadLink,
-        deleteButton
+        buttonContainer
       );
 
       fileList.appendChild(fileElement);

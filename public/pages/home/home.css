@@ -181,7 +181,7 @@ main > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 2rem;
 
   padding: 10px;
   border: 1px solid #ccc;
@@ -210,9 +210,21 @@ main > div {
   margin-right: 10px;
 }
 
+.file-buttons {
+  width: max-content;
+  display: flex;
+  gap: 0.5rem;
+}
+
 .file-item a {
   color: #007bff;
-  margin-right: 0.5rem;
+}
+.delete-button {
+  color: red;
+  border: none;
+  background: none;
+
+  cursor: pointer;
 }
 
 /* ------------------- MODALS -------------------------
