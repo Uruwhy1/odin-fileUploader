@@ -83,19 +83,17 @@ function displayFiles(files) {
       });
       const downloadLink = createElement("a", {
         href: downloadUrl,
+        title: "Download File",
         innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
       });
 
       const deleteButton = createElement("button", {
         className: "delete-button",
+        title: "Delete File",
         innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`,
       });
       deleteButton.addEventListener("click", async () => {
-        const confirmed = confirm("Are you sure you want to delete this file?");
-        if (confirmed) {
-          await deleteFile(file.publicId, file.id);
-          fileElement.remove();
-        }
+        openDeleteModal(file.publicId, file.id, fileElement);
       });
 
       const buttonContainer = createElement(
@@ -188,7 +186,60 @@ function getPreview(path) {
   }
 }
 
-async function deleteFile(publicId, fileId) {
+function openDeleteModal(publicID, fileID, element) {
+  let modalContainer = document.querySelector(".modal-container");
+
+  // title
+  let confirmationText = createElement("h4", {
+    textContent: "Are you sure you want to delete this file?",
+  });
+
+  // buttons
+  let cancelButton = createElement("button", {
+    textContent: "Cancel",
+    id: "cancel-delete-btn",
+    className: "back",
+  });
+  let confirmButton = createElement("button", {
+    textContent: "Confirm",
+    id: "confirm-delete-btn",
+    className: "submit",
+  });
+
+  let buttonContainer = createElement(
+    "div",
+    {
+      className: "buttons",
+    },
+    cancelButton,
+    confirmButton
+  );
+
+  // modal div
+  let modal = createElement(
+    "div",
+    {
+      className: "modal active",
+      id: "delete-confirmation-modal",
+    },
+    confirmationText,
+    buttonContainer
+  );
+  modalContainer.appendChild(modal);
+
+  showModal(modalContainer);
+
+  cancelButton.addEventListener("click", () => {
+    hideModal(modalContainer, modal);
+  });
+
+  confirmButton.addEventListener("click", () => {
+    deleteFile(publicID, fileID, element);
+    hideModal(modalContainer, modal);
+  });
+}
+
+async function deleteFile(publicId, fileId, element) {
   try {
     const response = await fetch(`/delete/${publicId}`, {
       method: "POST",
@@ -203,8 +254,20 @@ async function deleteFile(publicId, fileId) {
     }
 
     alert("File deleted successfully.");
+    element.remove();
   } catch (error) {
     console.error("Error deleting file:", error);
     alert("Error deleting file. Please try again.");
   }
+}
+
+function hideModal(...modals) {
+  modals.forEach((modal) => {
+    modal.classList.remove("active");
+  });
+}
+function showModal(...modals) {
+  modals.forEach((modal) => {
+    modal.classList.add("active");
+  });
 }
