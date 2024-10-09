@@ -1,3 +1,6 @@
+import { openDeleteModal } from "./deleteFile.js";
+import { createElement } from "./utils.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const folderItems = document.querySelectorAll(".folder-item");
 
@@ -119,32 +122,6 @@ function displayFiles(files) {
   }
 }
 
-function createElement(tag, options = {}, ...children) {
-  const element = document.createElement(tag);
-
-  for (let [key, value] of Object.entries(options)) {
-    if (key === "className") {
-      element.className = value;
-    } else if (key === "innerHTML") {
-      element.innerHTML = value;
-    } else if (key === "textContent") {
-      element.textContent = value;
-    } else {
-      element[key] = value;
-    }
-  }
-
-  children.forEach((child) => {
-    if (typeof child === "string") {
-      element.appendChild(document.createTextNode(child));
-    } else if (child) {
-      element.appendChild(child);
-    }
-  });
-
-  return element;
-}
-
 function formatSize(bytes) {
   if (bytes >= 1e9) {
     return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
@@ -184,90 +161,4 @@ function getPreview(path) {
   } else {
     return "assets/default-placeholder.png";
   }
-}
-
-function openDeleteModal(publicID, fileID, element) {
-  let modalContainer = document.querySelector(".modal-container");
-
-  // title
-  let confirmationText = createElement("h4", {
-    textContent: "Are you sure you want to delete this file?",
-  });
-
-  // buttons
-  let cancelButton = createElement("button", {
-    textContent: "Cancel",
-    id: "cancel-delete-btn",
-    className: "back",
-  });
-  let confirmButton = createElement("button", {
-    textContent: "Confirm",
-    id: "confirm-delete-btn",
-    className: "submit",
-  });
-
-  let buttonContainer = createElement(
-    "div",
-    {
-      className: "buttons",
-    },
-    cancelButton,
-    confirmButton
-  );
-
-  // modal div
-  let modal = createElement(
-    "div",
-    {
-      className: "modal active",
-      id: "delete-confirmation-modal",
-    },
-    confirmationText,
-    buttonContainer
-  );
-  modalContainer.appendChild(modal);
-
-  showModal(modalContainer);
-
-  cancelButton.addEventListener("click", () => {
-    hideModal(modalContainer, modal);
-  });
-
-  confirmButton.addEventListener("click", () => {
-    deleteFile(publicID, fileID, element);
-    hideModal(modalContainer, modal);
-  });
-}
-
-async function deleteFile(publicId, fileId, element) {
-  try {
-    const response = await fetch(`/delete/${publicId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ fileId }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete the file.");
-    }
-
-    alert("File deleted successfully.");
-    element.remove();
-  } catch (error) {
-    console.error("Error deleting file:", error);
-    alert("Error deleting file. Please try again.");
-  }
-}
-
-function hideModal(...modals) {
-  modals.forEach((modal) => {
-    modal.classList.remove("active");
-  });
-}
-function showModal(...modals) {
-  modals.forEach((modal) => {
-    modal.classList.add("active");
-  });
 }
