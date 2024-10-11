@@ -5,6 +5,9 @@
 
   --selected-folder: var(--accent);
 
+  --success-popup-bg: lightgreen;
+  --failure-popup-bg: lightcoral;
+
   --home-action: rgb(255, 255, 255);
   --home-action-hover: rgb(255, 230, 209);
 

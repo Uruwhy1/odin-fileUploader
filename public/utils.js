@@ -37,14 +37,19 @@ export function createElement(tag, options = {}, ...children) {
 
 export function showPopup(text, bool) {
   let popupElement = document.querySelector("#popup");
-  popupElement.textContent = text;
+  popupElement.classList.add("active");
 
   let type = bool ? "success" : "failure";
-  popupElement.classList.add(type);
+  let popupContent = document.querySelector(".pop-up-content");
+  popupContent.textContent = text;
+  popupContent.classList.add(type);
 
-  setTimeout(() => {
-    popupElement.classList.remove(type);
-  }, 5000);
+  // setTimeout(() => {
+  //   popupElement.classList.remove("active");
+  // }, 4000);
+  // setTimeout(() => {
+  //   popupElement.classList.remove(type);
+  // }, 5000);
 }
 
 setTimeout(() => {

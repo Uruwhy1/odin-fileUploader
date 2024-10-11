@@ -21,16 +21,89 @@
   left: 50%;
   transform: translateX(-50%);
 
-  top: -2rem;
+  color: #000;
+
+  border-radius: 5px;
+
+  top: -4rem;
   transition: all 0.3s;
+  z-index: 1;
+
+  display: block;
+
+  &.active {
+    top: 1.1rem;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.pop-up-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+
+  &::after,
+  &::before {
+    box-sizing: content-box;
+
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    height: 100%;
+    width: 100%;
+
+    border-radius: 10px;
+    padding: 3px;
+
+    z-index: -1;
+
+    animation: 2s spin linear infinite;
+  }
+  &::before {
+    filter: blur(1.5rem);
+  }
 
   &.success {
-    top: 2rem;
-    background-color: green;
+    &::after,
+    &::before {
+      background-image: conic-gradient(
+        from var(--angle),
+        transparent 70%,
+        var(--success-popup-bg)
+      );
+    }
   }
+
   &.failure {
-    top: 2rem;
-    background-color: red;
+    &::after,
+    &::before {
+      background-image: conic-gradient(
+        from var(--angle),
+        transparent 70%,
+        var(--failure-popup-bg)
+      );
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
   }
 }
 
