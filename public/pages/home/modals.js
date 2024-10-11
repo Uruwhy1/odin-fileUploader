@@ -1,4 +1,4 @@
-import { hideModal, showModal } from "./utils.js";
+import { hideModal, showModal } from "../../utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const modalContainer = document.querySelector(".modal-container");

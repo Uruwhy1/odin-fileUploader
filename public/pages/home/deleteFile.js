@@ -1,4 +1,4 @@
-import { createElement, hideModal, showModal } from "./utils.js";
+import { createElement, hideModal, showModal, showPopup } from "../../utils.js";
 
 export function openDeleteModal(publicID, fileID, element) {
   let modalContainer = document.querySelector(".modal-container");
@@ -67,10 +67,10 @@ async function deleteFile(publicId, fileId, element) {
       throw new Error("Failed to delete the file.");
     }
 
-    alert("File deleted successfully.");
+    showPopup("File deleted successfully!", true);
     element.remove();
   } catch (error) {
     console.error("Error deleting file:", error);
-    alert("Error deleting file. Please try again.");
+    showPopup("Error deleting file. Please try again.", false);
   }
 }

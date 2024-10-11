@@ -15,6 +15,25 @@
 .loading.active {
   transform: scaleX(1);
 }
+
+.pop-up {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  top: -2rem;
+  transition: all 0.3s;
+
+  &.success {
+    top: 2rem;
+    background-color: green;
+  }
+  &.failure {
+    top: 2rem;
+    background-color: red;
+  }
+}
+
 /* -------------------------------------- -*/
 
 header {

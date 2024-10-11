@@ -1,5 +1,5 @@
 import { openDeleteModal } from "./deleteFile.js";
-import { createElement } from "./utils.js";
+import { createElement } from "../../utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const folderItems = document.querySelectorAll(".folder-item");

@@ -34,3 +34,19 @@ export function createElement(tag, options = {}, ...children) {
 
   return element;
 }
+
+export function showPopup(text, bool) {
+  let popupElement = document.querySelector("#popup");
+  popupElement.textContent = text;
+
+  let type = bool ? "success" : "failure";
+  popupElement.classList.add(type);
+
+  setTimeout(() => {
+    popupElement.classList.remove(type);
+  }, 5000);
+}
+
+setTimeout(() => {
+  showPopup("Successful Popup!", true);
+}, 500);
