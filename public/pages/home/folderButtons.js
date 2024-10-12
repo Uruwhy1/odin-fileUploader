@@ -1,3 +1,5 @@
+import { showPopup } from "../../utils.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const removeButtons = document.querySelectorAll("#delete-folder-btn");
   const renameButtons = document.querySelectorAll("#rename-folder-btn");
@@ -23,17 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         });
 
-        if (response.ok) {
-          const folderElement = document.getElementById(`${folderId}`);
-          folderElement.remove();
-        } else if (response.status === 403) {
-          alert("You are a bad person. Or the page is broken.");
-        } else {
-          alert("Failed to delete the folder.");
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(
+            `Failed with status ${response.status}: ${errorMessage}`
+          );
         }
+
+        const folderElement = document.getElementById(folderId);
+        if (folderElement) {
+          folderElement.remove();
+        } else {
+          console.warn(`Folder element with ID ${folderId} not found.`);
+        }
+
+        showPopup("Folder deleted successfully.", true);
       } catch (error) {
         console.error("Error deleting folder:", error);
-        alert("An unexpected error occurred.");
+        showPopup("Failed to delete the folder.", false);
       }
     });
   });
@@ -67,7 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
       renameContainer.classList.add("hidden");
 
       const inputField = renameContainer.querySelector(".rename-input");
-      const newFolderName = inputField.value;
+      const newFolderName = inputField?.value.trim();
+      if (!newFolderName) {
+        showPopup("Folder name cannot be empty.", false);
+        return;
+      }
+
+      renameContainer.classList.add("hidden");
 
       try {
         const response = await fetch(`/folders/${folderId}/rename`, {
@@ -78,15 +93,24 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({ newName: newFolderName }),
         });
 
-        if (response.ok) {
-          let nameElement = document.querySelector(`#name-${folderId}`);
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(
+            `Rename failed with status ${response.status}: ${errorMessage}`
+          );
+        }
+
+        const nameElement = document.querySelector(`#name-${folderId}`);
+        if (nameElement) {
           nameElement.textContent = newFolderName;
         } else {
-          alert("Failed to rename the folder.");
+          console.warn(`Name element not found for folder ID: ${folderId}`);
         }
+
+        showPopup("Folder successfully renamed.", true);
       } catch (error) {
         console.error("Error renaming folder:", error);
-        alert("An unexpected error occurred.");
+        showPopup("Failed to rename the folder.", false);
       }
     });
   });
