@@ -218,13 +218,62 @@ main > div {
 
 .file-item a {
   color: #007bff;
+
+  &:hover .animate {
+    animation: floatY 1.5s linear infinite;
+  }
+
+  &:active {
+    color: var(--accent);
+  }
 }
+
+@keyframes floatY {
+  0% {
+    transform: translateY(0);
+  }
+  15% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1.75rem);
+  }
+  50.1% {
+    transform: translateY(-1.5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .delete-button {
   color: red;
   border: none;
   background: none;
 
   cursor: pointer;
+
+  &:hover .animate {
+    animation: floatX 1.5s linear infinite;
+  }
+}
+
+@keyframes floatX {
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1.5rem);
+  }
+  50.1% {
+    transform: translateX(-1.5rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* ------------------- MODALS -------------------------
