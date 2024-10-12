@@ -5,8 +5,13 @@
 
   --selected-folder: var(--accent);
 
-  --success-popup-bg: lightgreen;
-  --failure-popup-bg: lightcoral;
+  --error: #ecc8c5;
+  --error-text: #b83c37;
+  --error-shadow: #dd423c;
+
+  --success: #ddf3d5;
+  --success-text: #597151;
+  --success-shadow: #7fcc66;
 
   --home-action: rgb(255, 255, 255);
   --home-action-hover: rgb(255, 230, 209);
