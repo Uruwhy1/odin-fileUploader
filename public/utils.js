@@ -35,8 +35,11 @@ export function createElement(tag, options = {}, ...children) {
   return element;
 }
 
+let popupActive = false;
 export function showPopup(text, bool) {
+  if (popupActive) return;
   const popupElement = document.querySelector("#popup");
+  popupElement.innerHTML = "";
   popupElement.classList.add("active");
 
   const textElement = document.createElement("p");
@@ -54,10 +57,12 @@ export function showPopup(text, bool) {
   popupElement.appendChild(textElement);
   popupElement.classList.add(type);
 
+  popupActive = true;
   setTimeout(() => {
     popupElement.classList.remove("active");
   }, 2000);
   setTimeout(() => {
     popupElement.classList.remove(type);
+    popupActive = false;
   }, 3000);
 }
