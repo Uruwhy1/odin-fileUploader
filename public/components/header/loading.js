@@ -18,7 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", function (event) {
     const target = event.target;
 
-    if (target.tagName === "a" && target.href) {
+    console.log(target.tagName);
+
+    if (target.tagName === "A" && target.href) {
+      console.log("Test");
       if (target.target === "_blank") return; // if set to open in new tab
       event.preventDefault();
       showLoadingBar();
