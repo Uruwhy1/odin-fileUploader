@@ -180,6 +180,8 @@ function getPreview(path) {
     ppt: "assets/ppt-placeholder.png",
     pptx: "assets/ppt-placeholder.png",
     txt: "assets/txt-placeholder.png",
+    css: "assets/css-placeholder.png",
+    html: "assets/html-placeholder.png",
   };
 
   const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
