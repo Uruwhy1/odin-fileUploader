@@ -208,6 +208,8 @@ main > div {
 
   border-radius: 5px;
   margin-right: 10px;
+
+  cursor: pointer;
 }
 
 .file-buttons {

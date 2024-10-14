@@ -74,6 +74,9 @@ function displayFiles(files) {
         alt: `${file.name} preview`,
         className: "file-preview",
       });
+      imgPreview.addEventListener("click", () => {
+        window.open(file.path, "_blank");
+      });
 
       const titleElement = createElement("p", {
         className: "file-title",
@@ -180,9 +183,15 @@ function getPreview(path) {
   };
 
   const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+  const videoExtensions = ["mp4", "mkv"];
+
   if (imageExtensions.includes(extension)) {
     return path;
-  } else if (placeholders[extension]) {
+  } else if (videoExtensions.includes(extension)) {
+    return path.replace(/\.mp4$/, ".jpg");
+  }
+
+  if (placeholders[extension]) {
     return placeholders[extension];
   } else {
     return "assets/default-placeholder.png";
