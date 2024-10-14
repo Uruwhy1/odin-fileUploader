@@ -1,5 +1,6 @@
 import { openDeleteModal } from "./deleteFile.js";
 import { createElement } from "../../utils.js";
+import { renameFile } from "./editFile.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const folderItems = document.querySelectorAll(".folder-item");
@@ -82,6 +83,9 @@ function displayFiles(files) {
         className: "file-title",
         textContent: file.name,
       });
+      titleElement.addEventListener("click", () =>
+        renameFile(titleElement, file)
+      );
 
       const sizeElement = createElement("p", {
         className: "file-size",

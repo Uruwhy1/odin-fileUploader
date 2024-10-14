@@ -67,7 +67,6 @@ const deleteFile = async (req, res) => {
     return res.redirect("/login");
   }
 
-  const { id: publicId } = req.params;
   const { fileId } = req.body;
 
   try {
@@ -93,6 +92,41 @@ const deleteFile = async (req, res) => {
     res.status(200).json({ message: "File deleted successfully" });
   } catch (error) {
     console.error("Error deleting file:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const renameFile = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
+
+  const { id: rawFileId } = req.params;
+  const { newName } = req.body;
+  try {
+    // can't convert rawFileId directly because its value is not always available
+    // (This may be wrong but it's the explanation I cam eup with)
+    const fileId = +rawFileId;
+    const file = await prisma.file.findUnique({
+      where: { id: fileId },
+    });
+
+    if (!file || file.userId !== req.user.id) {
+      return res.status(403).send("Unauthorized to rename this file.");
+    }
+
+    if (!newName || newName.trim() === "") {
+      return res.status(400).send("Invalid file name.");
+    }
+
+    await prisma.file.update({
+      where: { id: fileId },
+      data: { name: newName.trim() },
+    });
+
+    res.status(200).json({ message: "File renamed successfully", newName });
+  } catch (error) {
+    console.error("Error renaming file:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -220,6 +254,7 @@ const getLastTenFiles = async (req, res) => {
 export default {
   uploadFile,
   deleteFile,
+  renameFile,
   createFolder,
   deleteFolder,
   renameFolder,

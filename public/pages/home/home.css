@@ -199,6 +199,21 @@ main > div {
 .file-title {
   flex-grow: 1;
   font-weight: 500;
+
+  padding: 0.5rem;
+
+  cursor: pointer;
+  position: relative;
+
+  border-radius: 2px;
+  border: 1px solid transparent;
+
+  &:hover {
+    border-color: gray;
+  }
+}
+input.file-title:hover {
+  border-color: transparent;
 }
 
 .file-preview {
@@ -207,7 +222,6 @@ main > div {
   object-fit: cover;
 
   border-radius: 5px;
-  margin-right: 10px;
 
   cursor: pointer;
 }
