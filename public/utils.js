@@ -36,8 +36,22 @@ export function createElement(tag, options = {}, ...children) {
 }
 
 let popupActive = false;
+let popupQueue = [];
+
 export function showPopup(text, bool) {
-  if (popupActive) return;
+  popupQueue.push({ text, bool });
+
+  if (!popupActive) {
+    processPopupQueue();
+  }
+}
+
+async function processPopupQueue() {
+  if (popupQueue.length === 0) return;
+
+  popupActive = true;
+
+  const { text, bool } = popupQueue[0];
   const popupElement = document.querySelector("#popup");
   popupElement.innerHTML = "";
   popupElement.classList.add("active");
@@ -50,19 +64,21 @@ export function showPopup(text, bool) {
     ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>`
     : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg>`;
 
-  const svgElement = document.createElement("svg");
+  const svgElement = document.createElement("div");
   svgElement.innerHTML = svg;
 
   popupElement.appendChild(svgElement);
   popupElement.appendChild(textElement);
   popupElement.classList.add(type);
 
-  popupActive = true;
-  setTimeout(() => {
-    popupElement.classList.remove("active");
-  }, 2000);
-  setTimeout(() => {
-    popupElement.classList.remove(type);
-    popupActive = false;
-  }, 3000);
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  popupElement.classList.remove("active");
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  popupElement.classList.remove(type);
+
+  popupQueue.shift();
+  popupActive = false;
+
+  processPopupQueue();
 }
